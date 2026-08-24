@@ -1,0 +1,71 @@
+# ============================================================
+# VulnLab
+# ============================================================
+
+# Python virtual environments
+.venv/
+venv/
+env/
+
+# Python cache
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+
+# Node.js / Next.js
+node_modules/
+.next/
+out/
+dist/
+
+# Environment files
+.env
+.env.local
+.env.*.local
+!.env.example
+
+# Runtime databases
+*.db
+*.sqlite
+*.sqlite3
+
+# Generated PDF reports
+reports/*.pdf
+
+# Keep reports directory
+!reports/.gitkeep
+
+# Logs / PID files
+logs/
+*.log
+*.pid
+
+# Temporary files / backups
+*.bak
+*.backup
+*.backup-*
+*.before-*
+*.tmp
+*~
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Coverage
+.coverage
+coverage/
+htmlcov/
+
+# Certificates / private keys
+*.key
+*.pem
+*.p12
+*.pfx

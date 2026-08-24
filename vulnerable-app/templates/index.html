@@ -1,0 +1,350 @@
+{% extends "base.html" %}
+
+{% set active_page = "dashboard" %}
+
+{% block title %}
+VulnLab // Training Target
+{% endblock %}
+
+{% block header_title %}
+Security Training Target
+{% endblock %}
+
+
+{% block content %}
+
+<div class="page-heading">
+
+    <div class="eyebrow">
+        // WEB SECURITY RESEARCH ENVIRONMENT
+    </div>
+
+    <h1>
+        Vulnerability Training Laboratory
+    </h1>
+
+    <p>
+        Controlled and intentionally vulnerable web environment
+        designed for detection research, scanner validation and
+        security training.
+    </p>
+
+</div>
+
+
+<!-- STATUS -->
+
+<div
+    style="
+        display:grid;
+        grid-template-columns:repeat(4,1fr);
+        gap:14px;
+        margin-bottom:30px;
+    "
+>
+
+    <div class="panel" style="padding:18px;">
+
+        <div class="eyebrow">
+            TARGET
+        </div>
+
+        <strong>
+            127.0.0.1:8080
+        </strong>
+
+    </div>
+
+
+    <div class="panel" style="padding:18px;">
+
+        <div class="eyebrow">
+            SECURITY LABS
+        </div>
+
+        <strong>
+            6 Modules
+        </strong>
+
+    </div>
+
+
+    <div class="panel" style="padding:18px;">
+
+        <div class="eyebrow">
+            DIFFICULTY
+        </div>
+
+        <strong>
+            4 Levels
+        </strong>
+
+    </div>
+
+
+    <div class="panel" style="padding:18px;">
+
+        <div class="eyebrow">
+            ENVIRONMENT
+        </div>
+
+        <strong style="color:#34d399;">
+            ● ISOLATED
+        </strong>
+
+    </div>
+
+</div>
+
+
+<!-- LABS -->
+
+<div
+    style="
+        display:grid;
+        grid-template-columns:repeat(3,1fr);
+        gap:16px;
+    "
+>
+
+    <!-- XSS -->
+
+    <div class="panel" style="padding:22px;">
+
+        <div class="eyebrow">
+            CWE-79
+        </div>
+
+        <h2>
+            Cross-Site Scripting
+        </h2>
+
+        <p
+            style="
+                color:#7c8ca5;
+                margin:10px 0 20px;
+                font-size:13px;
+                line-height:1.6;
+            "
+        >
+            Reflection, stored behavior and contextual
+            output analysis.
+        </p>
+
+        <a
+            class="btn"
+            href="/labs/xss?level=easy&q=test"
+        >
+            OPEN LAB
+        </a>
+
+    </div>
+
+
+    <!-- SQLI -->
+
+    <div class="panel" style="padding:22px;">
+
+        <div class="eyebrow">
+            CWE-89
+        </div>
+
+        <h2>
+            SQL Injection
+        </h2>
+
+        <p
+            style="
+                color:#7c8ca5;
+                margin:10px 0 20px;
+                font-size:13px;
+                line-height:1.6;
+            "
+        >
+            SQL error analysis and controlled
+            differential behavior.
+        </p>
+
+        <a
+            class="btn"
+            href="/labs/sqli?level=easy&id=1"
+        >
+            OPEN LAB
+        </a>
+
+    </div>
+
+
+    <!-- LFI -->
+
+    <div class="panel" style="padding:22px;">
+
+        <div class="eyebrow">
+            FILE ACCESS
+        </div>
+
+        <h2>
+            Local File Inclusion
+        </h2>
+
+        <p
+            style="
+                color:#7c8ca5;
+                margin:10px 0 20px;
+                font-size:13px;
+                line-height:1.6;
+            "
+        >
+            Controlled marker-based local file
+            inclusion scenario.
+        </p>
+
+        <a
+            class="btn"
+            href="/labs/lfi?level=easy&name=lfi-marker.txt"
+        >
+            OPEN LAB
+        </a>
+
+    </div>
+
+
+    <!-- TRAVERSAL -->
+
+    <div class="panel" style="padding:22px;">
+
+        <div class="eyebrow">
+            CWE-22
+        </div>
+
+        <h2>
+            Path Traversal
+        </h2>
+
+        <p
+            style="
+                color:#7c8ca5;
+                margin:10px 0 20px;
+                font-size:13px;
+                line-height:1.6;
+            "
+        >
+            Controlled filesystem traversal inside
+            the isolated laboratory.
+        </p>
+
+        <a
+            class="btn"
+            href="/labs/traversal?level=easy&path=public_files/readme.txt"
+        >
+            OPEN LAB
+        </a>
+
+    </div>
+
+
+    <!-- RFI -->
+
+    <div class="panel" style="padding:22px;">
+
+        <div class="eyebrow">
+            LOOPBACK ONLY
+        </div>
+
+        <h2>
+            Controlled RFI
+        </h2>
+
+        <p
+            style="
+                color:#7c8ca5;
+                margin:10px 0 20px;
+                font-size:13px;
+                line-height:1.6;
+            "
+        >
+            Remote resource behavior restricted
+            to the local resource server.
+        </p>
+
+        <a
+            class="btn"
+            href="/labs/rfi?level=easy&url=http://127.0.0.1:9000/marker.txt"
+        >
+            OPEN LAB
+        </a>
+
+    </div>
+
+
+    <!-- AUTH -->
+
+    <div class="panel" style="padding:22px;">
+
+        <div class="eyebrow">
+            CWE-307
+        </div>
+
+        <h2>
+            Authentication
+        </h2>
+
+        <p
+            style="
+                color:#7c8ca5;
+                margin:10px 0 20px;
+                font-size:13px;
+                line-height:1.6;
+            "
+        >
+            Rate limiting, response consistency,
+            lockout and simulated MFA.
+        </p>
+
+        <a
+            class="btn"
+            href="/login?level=easy"
+        >
+            OPEN LAB
+        </a>
+
+    </div>
+
+</div>
+
+
+<div
+    class="panel"
+    style="
+        padding:20px;
+        margin-top:25px;
+        border-color:rgba(251,191,36,.15);
+    "
+>
+
+    <div
+        style="
+            color:#fbbf24;
+            font-size:11px;
+            font-weight:700;
+            margin-bottom:7px;
+        "
+    >
+        ⚠ CONTROLLED ENVIRONMENT
+    </div>
+
+    <div
+        style="
+            color:#7c8ca5;
+            font-size:12px;
+            line-height:1.6;
+        "
+    >
+        VulnLab Target is intentionally vulnerable.
+        The application must remain inside the isolated
+        laboratory environment.
+    </div>
+
+</div>
+
+{% endblock %}

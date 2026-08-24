@@ -1,0 +1,439 @@
+{% extends "base.html" %}
+
+{% block title %}
+VulnLab // {{ lab_title }}
+{% endblock %}
+
+{% block header_title %}
+{{ lab_title }}
+{% endblock %}
+
+{% block content %}
+
+<div class="page-heading">
+
+    <div class="eyebrow">
+        // {{ cwe }} · {{ lab_category }}
+    </div>
+
+    <h1>
+        {{ lab_title }}
+    </h1>
+
+    <p>
+        {{ description }}
+    </p>
+
+</div>
+
+
+<div
+    style="
+        display:grid;
+        grid-template-columns:minmax(0,1.25fr) minmax(300px,.75fr);
+        gap:20px;
+        align-items:start;
+    "
+>
+
+    <!-- =====================================================
+         MAIN LAB
+    ====================================================== -->
+
+    <div class="panel" style="padding:28px;">
+
+        <div
+            style="
+                display:flex;
+                align-items:center;
+                justify-content:space-between;
+                gap:15px;
+                margin-bottom:24px;
+            "
+        >
+
+            <div>
+
+                <div class="eyebrow">
+                    ACTIVE TRAINING MODULE
+                </div>
+
+                <h2>
+                    {{ lab_title }}
+                </h2>
+
+            </div>
+
+
+            <div
+                style="
+                    padding:8px 12px;
+                    border:1px solid rgba(99,102,241,.28);
+                    border-radius:7px;
+                    background:rgba(99,102,241,.07);
+                    color:#a5b4fc;
+                    font-size:10px;
+                    font-weight:800;
+                    letter-spacing:1px;
+                    text-transform:uppercase;
+                "
+            >
+                {{ level }}
+            </div>
+
+        </div>
+
+
+        <!-- INPUT -->
+
+        <form
+            method="get"
+            action="{{ action }}"
+            style="margin-bottom:24px;"
+        >
+
+            <input
+                type="hidden"
+                name="level"
+                value="{{ level }}"
+            >
+
+
+            {% if lab_type == "xss" %}
+
+                <label class="lab-label">
+                    QUERY VALUE
+                </label>
+
+                <input
+                    class="lab-input"
+                    type="text"
+                    name="q"
+                    value="{{ current_value }}"
+                    placeholder="Enter controlled test value"
+                >
+
+                {% if level == "hard" %}
+                    <label
+                        style="
+                            display:flex;
+                            align-items:center;
+                            gap:8px;
+                            margin-top:12px;
+                            color:#94a3b8;
+                            font-size:11px;
+                        "
+                    >
+                        <input
+                            type="checkbox"
+                            name="store"
+                            value="1"
+                        >
+                        Store value before rendering
+                    </label>
+                {% endif %}
+
+
+            {% elif lab_type == "sqli" %}
+
+                <label class="lab-label">
+                    PRODUCT ID
+                </label>
+
+                <input
+                    class="lab-input"
+                    type="text"
+                    name="id"
+                    value="{{ current_value }}"
+                    placeholder="1"
+                >
+
+
+            {% elif lab_type == "lfi" %}
+
+                <label class="lab-label">
+                    FILE NAME
+                </label>
+
+                <input
+                    class="lab-input"
+                    type="text"
+                    name="name"
+                    value="{{ current_value }}"
+                    placeholder="lfi-marker.txt"
+                >
+
+
+            {% elif lab_type == "traversal" %}
+
+                <label class="lab-label">
+                    PATH
+                </label>
+
+                <input
+                    class="lab-input"
+                    type="text"
+                    name="path"
+                    value="{{ current_value }}"
+                    placeholder="public_files/readme.txt"
+                >
+
+
+            {% elif lab_type == "rfi" %}
+
+                <label class="lab-label">
+                    CONTROLLED RESOURCE URL
+                </label>
+
+                <input
+                    class="lab-input"
+                    type="text"
+                    name="url"
+                    value="{{ current_value }}"
+                    placeholder="http://127.0.0.1:9000/marker.txt"
+                >
+
+            {% endif %}
+
+
+            <button
+                type="submit"
+                class="btn"
+                style="
+                    width:100%;
+                    min-height:46px;
+                    margin-top:18px;
+                "
+            >
+                EXECUTE LAB REQUEST
+            </button>
+
+        </form>
+
+
+        {% if level == "expert" %}
+
+        <div
+            style="
+                margin-bottom:20px;
+                padding:14px;
+                border:1px solid rgba(251,191,36,.15);
+                border-radius:8px;
+                background:rgba(251,191,36,.03);
+            "
+        >
+
+            <div
+                style="
+                    color:#fbbf24;
+                    font-size:10px;
+                    font-weight:800;
+                    letter-spacing:1px;
+                    margin-bottom:7px;
+                "
+            >
+                EXPERT STATE REQUIREMENT
+            </div>
+
+            <div
+                style="
+                    color:#7c8ca5;
+                    font-size:11px;
+                    line-height:1.6;
+                    margin-bottom:12px;
+                "
+            >
+                This level requires an application state
+                to be initialized before the main request.
+            </div>
+
+            <a
+                class="btn btn-secondary"
+                href="{{ action }}?level=expert&prepare=1"
+            >
+                PREPARE SESSION STATE
+            </a>
+
+        </div>
+
+        {% endif %}
+
+
+        <!-- RESULT TERMINAL -->
+
+        <div>
+
+            <div
+                style="
+                    display:flex;
+                    justify-content:space-between;
+                    align-items:center;
+                    margin-bottom:9px;
+                "
+            >
+
+                <div class="lab-label">
+                    RESPONSE OUTPUT
+                </div>
+
+                <div
+                    style="
+                        color:#64748b;
+                        font-family:monospace;
+                        font-size:9px;
+                    "
+                >
+                    LAB://LOCAL
+                </div>
+
+            </div>
+
+
+            <div class="terminal">
+
+                <div class="terminal-header">
+
+                    <div style="display:flex;gap:6px;">
+                        <span class="terminal-dot red"></span>
+                        <span class="terminal-dot yellow"></span>
+                        <span class="terminal-dot green"></span>
+                    </div>
+
+                    <span>
+                        controlled-response
+                    </span>
+
+                </div>
+
+                <pre>{{ result }}</pre>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- =====================================================
+         SIDE PANEL
+    ====================================================== -->
+
+    <div>
+
+        <div class="panel" style="padding:23px;margin-bottom:16px;">
+
+            <div class="eyebrow">
+                DIFFICULTY
+            </div>
+
+            <h3 style="margin-bottom:17px;">
+                Scenario Level
+            </h3>
+
+            <div
+                style="
+                    display:flex;
+                    flex-direction:column;
+                    gap:8px;
+                "
+            >
+
+                {% for difficulty in ["easy", "medium", "hard", "expert"] %}
+
+                <a
+                    href="{{ action }}?level={{ difficulty }}{% if default_query %}&{{ default_query }}{% endif %}"
+                    class="nav-item {% if level == difficulty %}active{% endif %}"
+                    style="
+                        border:1px solid rgba(99,102,241,.14);
+                        min-height:48px;
+                        text-transform:capitalize;
+                    "
+                >
+
+                    <span class="nav-icon">
+                        0{{ loop.index }}
+                    </span>
+
+                    {{ difficulty }}
+
+                </a>
+
+                {% endfor %}
+
+            </div>
+
+        </div>
+
+
+        <div class="panel" style="padding:23px;margin-bottom:16px;">
+
+            <div class="eyebrow">
+                MODULE PROFILE
+            </div>
+
+            <div class="info-row">
+                <span>CWE</span>
+                <strong>{{ cwe }}</strong>
+            </div>
+
+            <div class="info-row">
+                <span>Category</span>
+                <strong>{{ lab_category }}</strong>
+            </div>
+
+            <div class="info-row">
+                <span>Difficulty</span>
+                <strong style="text-transform:capitalize;">
+                    {{ level }}
+                </strong>
+            </div>
+
+            <div class="info-row">
+                <span>Environment</span>
+                <strong style="color:#34d399;">
+                    LOCAL
+                </strong>
+            </div>
+
+        </div>
+
+
+        <div
+            class="panel"
+            style="
+                padding:20px;
+                border-color:rgba(34,211,238,.14);
+            "
+        >
+
+            <div
+                style="
+                    color:#22d3ee;
+                    font-size:10px;
+                    font-weight:800;
+                    letter-spacing:1px;
+                    margin-bottom:8px;
+                "
+            >
+                TRAINING NOTE
+            </div>
+
+            <p
+                style="
+                    color:#64748b;
+                    font-size:11px;
+                    line-height:1.7;
+                "
+            >
+                This module is intentionally vulnerable and
+                designed exclusively for the isolated VulnLab
+                environment.
+            </p>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

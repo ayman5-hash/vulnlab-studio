@@ -1,0 +1,395 @@
+{% extends "base.html" %}
+
+{% block title %}
+VulnLab // Authentication Lab
+{% endblock %}
+
+{% block header_title %}
+Authentication Security Lab
+{% endblock %}
+
+{% block content %}
+
+<div class="page-heading">
+
+    <div class="eyebrow">
+        // CWE-307 · AUTHENTICATION RESISTANCE
+    </div>
+
+    <h1>
+        Authentication Laboratory
+    </h1>
+
+    <p>
+        Controlled authentication environment for testing
+        response consistency, rate limiting, progressive delay,
+        account lockout and simulated MFA behavior.
+    </p>
+
+</div>
+
+
+<div
+    style="
+        display:grid;
+        grid-template-columns:minmax(0,1.1fr) minmax(320px,.9fr);
+        gap:20px;
+        align-items:start;
+    "
+>
+
+    <!-- LOGIN PANEL -->
+
+    <div class="panel" style="padding:28px;">
+
+        <div
+            style="
+                display:flex;
+                justify-content:space-between;
+                align-items:center;
+                margin-bottom:26px;
+            "
+        >
+
+            <div>
+
+                <div class="eyebrow">
+                    ACCESS CONTROL
+                </div>
+
+                <h2>
+                    Lab Authentication Portal
+                </h2>
+
+            </div>
+
+            <div
+                style="
+                    padding:7px 11px;
+                    border:1px solid rgba(99,102,241,.25);
+                    border-radius:7px;
+                    color:#a5b4fc;
+                    background:rgba(99,102,241,.06);
+                    font-size:10px;
+                    font-weight:700;
+                    letter-spacing:.8px;
+                    text-transform:uppercase;
+                "
+            >
+                {{ level }}
+            </div>
+
+        </div>
+
+
+        <form
+            method="post"
+            action="/login?level={{ level }}"
+        >
+
+            <div style="margin-bottom:18px;">
+
+                <label
+                    for="username"
+                    style="
+                        display:block;
+                        margin-bottom:8px;
+                        color:#94a3b8;
+                        font-size:11px;
+                        font-weight:700;
+                        letter-spacing:.8px;
+                    "
+                >
+                    USERNAME
+                </label>
+
+                <input
+                    id="username"
+                    name="username"
+                    type="text"
+                    placeholder="lab-student"
+                    autocomplete="off"
+                    required
+                    style="
+                        width:100%;
+                        min-height:46px;
+                        padding:0 14px;
+                        border:1px solid rgba(99,102,241,.20);
+                        border-radius:8px;
+                        outline:none;
+                        background:rgba(2,6,23,.65);
+                        color:#f8fafc;
+                        font-size:13px;
+                    "
+                >
+
+            </div>
+
+
+            <div style="margin-bottom:22px;">
+
+                <label
+                    for="password"
+                    style="
+                        display:block;
+                        margin-bottom:8px;
+                        color:#94a3b8;
+                        font-size:11px;
+                        font-weight:700;
+                        letter-spacing:.8px;
+                    "
+                >
+                    PASSWORD
+                </label>
+
+                <input
+                    id="password"
+                    name="password"
+                    type="password"
+                    placeholder="Enter lab password"
+                    required
+                    style="
+                        width:100%;
+                        min-height:46px;
+                        padding:0 14px;
+                        border:1px solid rgba(99,102,241,.20);
+                        border-radius:8px;
+                        outline:none;
+                        background:rgba(2,6,23,.65);
+                        color:#f8fafc;
+                        font-size:13px;
+                    "
+                >
+
+            </div>
+
+
+            <button
+                type="submit"
+                class="btn"
+                style="
+                    width:100%;
+                    min-height:46px;
+                "
+            >
+                AUTHENTICATE
+            </button>
+
+        </form>
+
+
+        <div
+            style="
+                margin-top:18px;
+                padding:13px;
+                border:1px solid rgba(34,211,238,.12);
+                border-radius:8px;
+                background:rgba(34,211,238,.025);
+                color:#64748b;
+                font-size:11px;
+                line-height:1.6;
+            "
+        >
+            Synthetic laboratory credentials only.
+            No real user account should be tested through this portal.
+        </div>
+
+    </div>
+
+
+    <!-- DIFFICULTY PANEL -->
+
+    <div class="panel" style="padding:24px;">
+
+        <div class="eyebrow">
+            DIFFICULTY PROFILE
+        </div>
+
+        <h2 style="margin-bottom:20px;">
+            Select Assessment Level
+        </h2>
+
+
+        <div
+            style="
+                display:flex;
+                flex-direction:column;
+                gap:10px;
+            "
+        >
+
+            <a
+                href="/login?level=easy"
+                class="nav-item {% if level == 'easy' %}active{% endif %}"
+                style="
+                    min-height:58px;
+                    border:1px solid rgba(99,102,241,.15);
+                "
+            >
+                <span class="nav-icon">01</span>
+
+                <div>
+
+                    <strong style="display:block;color:#f1f5f9;">
+                        Easy
+                    </strong>
+
+                    <span style="font-size:10px;color:#64748b;">
+                        No effective rate limiting
+                    </span>
+
+                </div>
+            </a>
+
+
+            <a
+                href="/login?level=medium"
+                class="nav-item {% if level == 'medium' %}active{% endif %}"
+                style="
+                    min-height:58px;
+                    border:1px solid rgba(99,102,241,.15);
+                "
+            >
+                <span class="nav-icon">02</span>
+
+                <div>
+
+                    <strong style="display:block;color:#f1f5f9;">
+                        Medium
+                    </strong>
+
+                    <span style="font-size:10px;color:#64748b;">
+                        Progressive response delay
+                    </span>
+
+                </div>
+            </a>
+
+
+            <a
+                href="/login?level=hard"
+                class="nav-item {% if level == 'hard' %}active{% endif %}"
+                style="
+                    min-height:58px;
+                    border:1px solid rgba(99,102,241,.15);
+                "
+            >
+                <span class="nav-icon">03</span>
+
+                <div>
+
+                    <strong style="display:block;color:#f1f5f9;">
+                        Hard
+                    </strong>
+
+                    <span style="font-size:10px;color:#64748b;">
+                        Lockout + uniform response
+                    </span>
+
+                </div>
+            </a>
+
+
+            <a
+                href="/login?level=expert"
+                class="nav-item {% if level == 'expert' %}active{% endif %}"
+                style="
+                    min-height:58px;
+                    border:1px solid rgba(99,102,241,.15);
+                "
+            >
+                <span class="nav-icon">04</span>
+
+                <div>
+
+                    <strong style="display:block;color:#f1f5f9;">
+                        Expert
+                    </strong>
+
+                    <span style="font-size:10px;color:#64748b;">
+                        Lockout + simulated MFA
+                    </span>
+
+                </div>
+            </a>
+
+        </div>
+
+
+        <div
+            style="
+                margin-top:22px;
+                padding-top:18px;
+                border-top:1px solid rgba(99,102,241,.12);
+            "
+        >
+
+            <div class="eyebrow">
+                LAB ACCOUNT
+            </div>
+
+            <div
+                style="
+                    display:grid;
+                    grid-template-columns:1fr 1fr;
+                    gap:10px;
+                    margin-top:10px;
+                "
+            >
+
+                <div
+                    style="
+                        padding:12px;
+                        border:1px solid rgba(99,102,241,.12);
+                        border-radius:7px;
+                        background:rgba(15,23,42,.35);
+                    "
+                >
+                    <div
+                        style="
+                            color:#64748b;
+                            font-size:9px;
+                            margin-bottom:5px;
+                        "
+                    >
+                        USER
+                    </div>
+
+                    <code>
+                        lab-student
+                    </code>
+                </div>
+
+
+                <div
+                    style="
+                        padding:12px;
+                        border:1px solid rgba(99,102,241,.12);
+                        border-radius:7px;
+                        background:rgba(15,23,42,.35);
+                    "
+                >
+                    <div
+                        style="
+                            color:#64748b;
+                            font-size:9px;
+                            margin-bottom:5px;
+                        "
+                    >
+                        PASSWORD
+                    </div>
+
+                    <code>
+                        lab123
+                    </code>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

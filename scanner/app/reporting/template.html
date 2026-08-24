@@ -1,0 +1,1110 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+
+    <title>
+        VulnLab Security Assessment
+    </title>
+
+    <style>
+
+        @page {
+            size: A4;
+            margin: 18mm 16mm 18mm 16mm;
+
+            @bottom-center {
+                content: "VulnLab Studio - Controlled Security Assessment";
+                font-size: 8px;
+                color: #64748b;
+            }
+
+            @bottom-right {
+                content: "Page " counter(page);
+                font-size: 8px;
+                color: #64748b;
+            }
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+
+            color: #172033;
+
+            font-family:
+                Arial,
+                Helvetica,
+                sans-serif;
+
+            font-size: 10.5pt;
+
+            line-height: 1.5;
+        }
+
+
+        /* =====================================================
+           COVER
+        ====================================================== */
+
+        .cover {
+            min-height: 245mm;
+
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .brand {
+            color: #4f46e5;
+
+            font-size: 11px;
+            font-weight: bold;
+
+            letter-spacing: 2px;
+
+            margin-bottom: 18px;
+        }
+
+        .cover h1 {
+            margin: 0;
+
+            color: #0f172a;
+
+            font-size: 34px;
+
+            line-height: 1.08;
+
+            letter-spacing: -1px;
+        }
+
+        .cover-subtitle {
+            margin-top: 14px;
+
+            color: #64748b;
+
+            font-size: 15px;
+        }
+
+        .cover-line {
+            width: 90px;
+            height: 4px;
+
+            margin: 28px 0;
+
+            background: #4f46e5;
+        }
+
+        .context-grid {
+            display: grid;
+
+            grid-template-columns:
+                1fr 1fr;
+
+            gap: 10px;
+
+            margin-top: 20px;
+        }
+
+        .context-box {
+            padding: 13px;
+
+            border: 1px solid #e2e8f0;
+
+            border-radius: 6px;
+
+            background: #f8fafc;
+        }
+
+        .context-label {
+            margin-bottom: 4px;
+
+            color: #64748b;
+
+            font-size: 8px;
+            font-weight: bold;
+
+            letter-spacing: 1px;
+
+            text-transform: uppercase;
+        }
+
+        .context-value {
+            color: #0f172a;
+
+            font-size: 11px;
+            font-weight: bold;
+
+            word-break: break-word;
+        }
+
+        .warning {
+            margin-top: 28px;
+
+            padding: 13px;
+
+            border-left: 4px solid #f59e0b;
+
+            background: #fffbeb;
+
+            color: #78350f;
+
+            font-size: 9px;
+        }
+
+
+        /* =====================================================
+           GENERAL
+        ====================================================== */
+
+        .page-break {
+            page-break-before: always;
+        }
+
+        h2 {
+            margin: 0 0 16px;
+
+            color: #0f172a;
+
+            font-size: 21px;
+        }
+
+        h3 {
+            margin: 20px 0 9px;
+
+            color: #1e293b;
+
+            font-size: 14px;
+        }
+
+        p {
+            margin: 0 0 10px;
+        }
+
+        .muted {
+            color: #64748b;
+        }
+
+        .section-label {
+            margin-bottom: 5px;
+
+            color: #4f46e5;
+
+            font-size: 8px;
+            font-weight: bold;
+
+            letter-spacing: 1.3px;
+
+            text-transform: uppercase;
+        }
+
+
+        /* =====================================================
+           SCORE
+        ====================================================== */
+
+        .score-wrapper {
+            display: grid;
+
+            grid-template-columns:
+                140px 1fr;
+
+            gap: 20px;
+
+            margin: 20px 0;
+        }
+
+        .score-box {
+            padding: 20px;
+
+            text-align: center;
+
+            border: 1px solid #e2e8f0;
+
+            border-radius: 7px;
+
+            background: #f8fafc;
+        }
+
+        .score-number {
+            color: #0f172a;
+
+            font-size: 38px;
+            font-weight: bold;
+
+            line-height: 1;
+        }
+
+        .score-total {
+            margin-top: 5px;
+
+            color: #64748b;
+
+            font-size: 10px;
+        }
+
+        .summary-box {
+            padding: 16px;
+
+            border: 1px solid #e2e8f0;
+
+            border-radius: 7px;
+        }
+
+
+        /* =====================================================
+           TABLE
+        ====================================================== */
+
+        table {
+            width: 100%;
+
+            border-collapse: collapse;
+
+            margin-top: 10px;
+
+            font-size: 9px;
+        }
+
+        th {
+            padding: 8px;
+
+            text-align: left;
+
+            color: #475569;
+
+            border-bottom: 2px solid #cbd5e1;
+
+            background: #f8fafc;
+        }
+
+        td {
+            padding: 8px;
+
+            vertical-align: top;
+
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+
+        /* =====================================================
+           SEVERITY
+        ====================================================== */
+
+        .severity {
+            display: inline-block;
+
+            padding: 3px 7px;
+
+            border-radius: 4px;
+
+            font-size: 8px;
+            font-weight: bold;
+        }
+
+        .severity-Critical {
+            color: #7f1d1d;
+            background: #fee2e2;
+        }
+
+        .severity-High {
+            color: #9a3412;
+            background: #ffedd5;
+        }
+
+        .severity-Medium {
+            color: #854d0e;
+            background: #fef9c3;
+        }
+
+        .severity-Low {
+            color: #166534;
+            background: #dcfce7;
+        }
+
+        .severity-Info {
+            color: #334155;
+            background: #e2e8f0;
+        }
+
+
+        /* =====================================================
+           FINDINGS
+        ====================================================== */
+
+        .finding {
+            margin: 0 0 22px;
+
+            padding: 16px;
+
+            border: 1px solid #e2e8f0;
+
+            border-radius: 7px;
+
+            page-break-inside: avoid;
+        }
+
+        .finding-header {
+            display: flex;
+
+            justify-content: space-between;
+
+            gap: 15px;
+
+            margin-bottom: 12px;
+        }
+
+        .finding-title {
+            color: #0f172a;
+
+            font-size: 15px;
+            font-weight: bold;
+        }
+
+        .meta-grid {
+            display: grid;
+
+            grid-template-columns:
+                1fr 1fr;
+
+            gap: 8px;
+
+            margin-bottom: 12px;
+        }
+
+        .meta-item {
+            padding: 8px;
+
+            background: #f8fafc;
+
+            border-radius: 4px;
+        }
+
+        .meta-label {
+            margin-bottom: 3px;
+
+            color: #64748b;
+
+            font-size: 7px;
+            font-weight: bold;
+
+            letter-spacing: .8px;
+
+            text-transform: uppercase;
+        }
+
+        .meta-value {
+            font-size: 9px;
+
+            word-break: break-word;
+        }
+
+        .evidence {
+            margin-top: 8px;
+
+            padding: 10px;
+
+            border-left: 3px solid #4f46e5;
+
+            background: #f8fafc;
+
+            color: #334155;
+
+            font-family:
+                "Courier New",
+                monospace;
+
+            font-size: 8.5px;
+
+            word-break: break-word;
+        }
+
+        .recommendation {
+            margin-top: 10px;
+
+            padding: 10px;
+
+            border-left: 3px solid #10b981;
+
+            background: #ecfdf5;
+
+            color: #14532d;
+
+            font-size: 9px;
+        }
+
+
+        /* =====================================================
+           WHITE BOX
+        ====================================================== */
+
+        .code-hit {
+            margin-bottom: 8px;
+
+            padding: 9px;
+
+            border: 1px solid #e2e8f0;
+
+            border-radius: 5px;
+
+            background: #f8fafc;
+
+            font-family:
+                "Courier New",
+                monospace;
+
+            font-size: 8px;
+        }
+
+
+        /* =====================================================
+           FOOTNOTE
+        ====================================================== */
+
+        .disclaimer {
+            margin-top: 25px;
+
+            padding-top: 12px;
+
+            border-top: 1px solid #e2e8f0;
+
+            color: #64748b;
+
+            font-size: 8px;
+        }
+
+    </style>
+</head>
+
+
+<body>
+
+
+<!-- =========================================================
+     COVER
+========================================================= -->
+
+<section class="cover">
+
+    <div class="brand">
+        VULNLAB STUDIO
+    </div>
+
+    <h1>
+        Web Security<br>
+        Assessment Report
+    </h1>
+
+    <div class="cover-subtitle">
+        Controlled vulnerability detection laboratory
+    </div>
+
+    <div class="cover-line"></div>
+
+
+    <div class="context-grid">
+
+        <div class="context-box">
+
+            <div class="context-label">
+                Scan ID
+            </div>
+
+            <div class="context-value">
+                #{{ scan.id }}
+            </div>
+
+        </div>
+
+
+        <div class="context-box">
+
+            <div class="context-label">
+                Assessment Mode
+            </div>
+
+            <div class="context-value">
+                {{ scan.mode | upper }}
+            </div>
+
+        </div>
+
+
+        <div class="context-box">
+
+            <div class="context-label">
+                Target
+            </div>
+
+            <div class="context-value">
+                {{ scan.target }}
+            </div>
+
+        </div>
+
+
+        <div class="context-box">
+
+            <div class="context-label">
+                Difficulty
+            </div>
+
+            <div class="context-value">
+                {{ scan.difficulty | upper }}
+            </div>
+
+        </div>
+
+
+        <div class="context-box">
+
+            <div class="context-label">
+                Findings
+            </div>
+
+            <div class="context-value">
+                {{ scan.finding_count }}
+            </div>
+
+        </div>
+
+
+        <div class="context-box">
+
+            <div class="context-label">
+                Security Score
+            </div>
+
+            <div class="context-value">
+                {{ scan.security_score }}/100
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <div class="warning">
+
+        This report was generated inside the isolated
+        VulnLab Studio environment.
+
+        Detection uses controlled markers, bounded
+        authentication probes and differential response
+        analysis.
+
+        No arbitrary system-file access, database dump,
+        command execution or external-host exploitation
+        was performed.
+
+    </div>
+
+</section>
+
+
+<!-- =========================================================
+     EXECUTIVE SUMMARY
+========================================================= -->
+
+<section class="page-break">
+
+    <div class="section-label">
+        01 / Executive Summary
+    </div>
+
+    <h2>
+        Assessment Overview
+    </h2>
+
+    <p class="muted">
+
+        VulnLab Studio performed a controlled
+        {{ scan.mode | upper }} assessment of
+        {{ scan.target }} using the
+        {{ scan.difficulty | upper }} difficulty profile.
+
+    </p>
+
+
+    <div class="score-wrapper">
+
+        <div class="score-box">
+
+            <div class="score-number">
+                {{ scan.security_score }}
+            </div>
+
+            <div class="score-total">
+                SECURITY SCORE / 100
+            </div>
+
+        </div>
+
+
+        <div class="summary-box">
+
+            <div class="section-label">
+                Scan Result
+            </div>
+
+            <p>
+                <strong>{{ scan.finding_count }}</strong>
+                security finding(s) were recorded.
+            </p>
+
+            <p>
+                Assessment status:
+                <strong>{{ scan.status }}</strong>
+            </p>
+
+            <p>
+                Difficulty:
+                <strong>{{ scan.difficulty }}</strong>
+            </p>
+
+            <p>
+                Mode:
+                <strong>{{ scan.mode }}</strong>
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <h3>
+        Modules
+    </h3>
+
+    <p>
+        {{ scan.modules | join(", ") }}
+    </p>
+
+
+    <h3>
+        Methodology
+    </h3>
+
+    <p>
+
+        The assessment combines same-origin endpoint
+        discovery with safe-active vulnerability
+        detectors.
+
+        XSS detection uses controlled reflection markers,
+        SQL injection detection uses differential response
+        analysis, file-related modules use dedicated marker
+        files, RFI validation is restricted to the local
+        loopback resource server, and authentication checks
+        are bounded to a small number of laboratory probes.
+
+    </p>
+
+
+    {% if scan.mode == "whitebox" %}
+
+    <p>
+
+        White Box mode also performs lightweight source
+        correlation against the explicitly authorized local
+        source directory.
+
+    </p>
+
+    {% endif %}
+
+
+</section>
+
+
+<!-- =========================================================
+     FINDINGS SUMMARY
+========================================================= -->
+
+<section class="page-break">
+
+    <div class="section-label">
+        02 / Findings Summary
+    </div>
+
+    <h2>
+        Identified Security Findings
+    </h2>
+
+
+    {% if scan.findings %}
+
+    <table>
+
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Finding</th>
+                <th>Severity</th>
+                <th>CWE</th>
+                <th>Endpoint</th>
+                <th>Confidence</th>
+            </tr>
+        </thead>
+
+        <tbody>
+
+            {% for finding in scan.findings %}
+
+            <tr>
+
+                <td>
+                    {{ loop.index }}
+                </td>
+
+                <td>
+                    {{ finding.vulnerability }}
+                </td>
+
+                <td>
+
+                    <span
+                        class="severity severity-{{ finding.severity }}"
+                    >
+                        {{ finding.severity }}
+                    </span>
+
+                </td>
+
+                <td>
+                    {{ finding.cwe }}
+                </td>
+
+                <td>
+                    {{ finding.endpoint }}
+                </td>
+
+                <td>
+                    {{ "%.0f"|format(finding.confidence * 100) }}%
+                </td>
+
+            </tr>
+
+            {% endfor %}
+
+        </tbody>
+
+    </table>
+
+    {% else %}
+
+    <p>
+        No findings were recorded.
+    </p>
+
+    {% endif %}
+
+</section>
+
+
+<!-- =========================================================
+     DETAILED FINDINGS
+========================================================= -->
+
+<section class="page-break">
+
+    <div class="section-label">
+        03 / Detailed Findings
+    </div>
+
+    <h2>
+        Technical Findings
+    </h2>
+
+
+    {% for finding in scan.findings %}
+
+    <article class="finding">
+
+        <div class="finding-header">
+
+            <div>
+
+                <div class="finding-title">
+                    {{ loop.index }}.
+                    {{ finding.vulnerability }}
+                </div>
+
+            </div>
+
+
+            <div>
+
+                <span
+                    class="severity severity-{{ finding.severity }}"
+                >
+                    {{ finding.severity }}
+                </span>
+
+            </div>
+
+        </div>
+
+
+        <div class="meta-grid">
+
+            <div class="meta-item">
+
+                <div class="meta-label">
+                    CWE
+                </div>
+
+                <div class="meta-value">
+                    {{ finding.cwe }}
+                </div>
+
+            </div>
+
+
+            <div class="meta-item">
+
+                <div class="meta-label">
+                    Confidence
+                </div>
+
+                <div class="meta-value">
+                    {{ "%.0f"|format(finding.confidence * 100) }}%
+                </div>
+
+            </div>
+
+
+            <div class="meta-item">
+
+                <div class="meta-label">
+                    Endpoint
+                </div>
+
+                <div class="meta-value">
+                    {{ finding.endpoint }}
+                </div>
+
+            </div>
+
+
+            <div class="meta-item">
+
+                <div class="meta-label">
+                    Parameter
+                </div>
+
+                <div class="meta-value">
+                    {{ finding.parameter or "N/A" }}
+                </div>
+
+            </div>
+
+
+            <div class="meta-item">
+
+                <div class="meta-label">
+                    Difficulty
+                </div>
+
+                <div class="meta-value">
+                    {{ finding.difficulty }}
+                </div>
+
+            </div>
+
+
+            <div class="meta-item">
+
+                <div class="meta-label">
+                    Assessment Mode
+                </div>
+
+                <div class="meta-value">
+                    {{ finding.assessment_mode }}
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <h3>
+            Detection
+        </h3>
+
+        <p>
+            {{ finding.detection_method }}
+        </p>
+
+
+        <h3>
+            Evidence
+        </h3>
+
+        <div class="evidence">
+            {{ finding.evidence }}
+        </div>
+
+
+        <h3>
+            Exploitation Performed
+        </h3>
+
+        <p>
+            {% if finding.exploitation_performed %}
+                Yes
+            {% else %}
+                No
+            {% endif %}
+        </p>
+
+
+        <h3>
+            Recommendation
+        </h3>
+
+        <div class="recommendation">
+            {{ finding.recommendation }}
+        </div>
+
+    </article>
+
+    {% endfor %}
+
+</section>
+
+
+<!-- =========================================================
+     WHITE BOX
+========================================================= -->
+
+{% if scan.mode == "whitebox" %}
+
+<section class="page-break">
+
+    <div class="section-label">
+        04 / White Box Correlation
+    </div>
+
+    <h2>
+        Source Analysis Signals
+    </h2>
+
+    <p class="muted">
+
+        These entries represent lightweight static signals
+        discovered in explicitly authorized local source
+        files.
+
+        They are supporting evidence and should not be
+        interpreted as standalone proof of exploitability.
+
+    </p>
+
+
+    {% for hit in scan.whitebox_hits %}
+
+    <div class="code-hit">
+
+        [{{ hit.category }}]
+
+        {{ hit.pattern }}
+
+        <br>
+
+        {{ hit.file }}
+
+    </div>
+
+    {% endfor %}
+
+</section>
+
+{% endif %}
+
+
+<!-- =========================================================
+     LIMITATIONS / CONCLUSION
+========================================================= -->
+
+<section class="page-break">
+
+    <div class="section-label">
+        Final / Limitations
+    </div>
+
+    <h2>
+        Limitations and Conclusion
+    </h2>
+
+
+    <h3>
+        Limitations
+    </h3>
+
+    <p>
+
+        This assessment is intentionally constrained to the
+        VulnLab laboratory scope.
+
+        Results are based on controlled probes and predefined
+        laboratory markers.
+
+        Absence of a finding does not prove absence of a
+        vulnerability.
+
+    </p>
+
+
+    <h3>
+        Safety Constraints
+    </h3>
+
+    <p>
+
+        External Internet targets are rejected by the scanner
+        scope policy.
+
+        Remote resource validation uses only the local
+        127.0.0.1:9000 resource server.
+
+        Authentication testing uses a bounded number of
+        synthetic attempts.
+
+    </p>
+
+
+    <h3>
+        Conclusion
+    </h3>
+
+    <p>
+
+        The scan completed with
+        <strong>{{ scan.finding_count }}</strong>
+        finding(s) and a VulnLab Security Score of
+        <strong>{{ scan.security_score }}/100</strong>.
+
+        Findings should be interpreted together with their
+        confidence scores, assessment mode and difficulty
+        profile.
+
+    </p>
+
+
+    <div class="disclaimer">
+
+        Generated at {{ generated_at }}.
+        VulnLab Studio - Local Security Training Environment.
+
+    </div>
+
+</section>
+
+
+</body>
+</html>

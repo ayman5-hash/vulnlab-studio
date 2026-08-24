@@ -1,0 +1,768 @@
+/* ==========================================================
+   VULNLAB STUDIO
+   Futuristic Security Lab UI
+   ========================================================== */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --background: #05070d;
+    --surface: #0b101b;
+    --surface-light: #111827;
+    --border: rgba(99, 102, 241, 0.20);
+
+    --text: #f1f5f9;
+    --muted: #7c8ca5;
+
+    --primary: #6366f1;
+    --primary-light: #818cf8;
+
+    --cyan: #22d3ee;
+    --green: #34d399;
+    --yellow: #fbbf24;
+    --red: #fb7185;
+
+    --sidebar-width: 260px;
+}
+
+html {
+    min-height: 100%;
+}
+
+body {
+    min-height: 100vh;
+
+    background:
+        radial-gradient(
+            circle at 70% 20%,
+            rgba(99, 102, 241, 0.09),
+            transparent 35%
+        ),
+        radial-gradient(
+            circle at 30% 80%,
+            rgba(34, 211, 238, 0.05),
+            transparent 35%
+        ),
+        var(--background);
+
+    color: var(--text);
+
+    font-family:
+        Inter,
+        ui-sans-serif,
+        system-ui,
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        sans-serif;
+
+    overflow-x: hidden;
+}
+
+
+/* ==========================================================
+   BACKGROUND
+   ========================================================== */
+
+.grid-background {
+    position: fixed;
+    inset: 0;
+
+    pointer-events: none;
+
+    opacity: 0.15;
+
+    background-image:
+        linear-gradient(
+            rgba(99, 102, 241, 0.12) 1px,
+            transparent 1px
+        ),
+        linear-gradient(
+            90deg,
+            rgba(99, 102, 241, 0.12) 1px,
+            transparent 1px
+        );
+
+    background-size: 45px 45px;
+
+    mask-image:
+        linear-gradient(
+            to bottom,
+            black,
+            transparent 85%
+        );
+}
+
+.glow {
+    position: fixed;
+
+    width: 500px;
+    height: 500px;
+
+    border-radius: 50%;
+
+    filter: blur(150px);
+
+    pointer-events: none;
+
+    opacity: 0.08;
+}
+
+.glow-one {
+    background: var(--primary);
+
+    top: -200px;
+    right: -150px;
+}
+
+.glow-two {
+    background: var(--cyan);
+
+    bottom: -250px;
+    left: 15%;
+}
+
+
+/* ==========================================================
+   APPLICATION LAYOUT
+   ========================================================== */
+
+.app-shell {
+    display: flex;
+
+    min-height: 100vh;
+
+    position: relative;
+    z-index: 1;
+}
+
+
+/* ==========================================================
+   SIDEBAR
+   ========================================================== */
+
+.sidebar {
+    width: var(--sidebar-width);
+
+    position: fixed;
+
+    top: 0;
+    left: 0;
+    bottom: 0;
+
+    display: flex;
+    flex-direction: column;
+
+    padding: 24px 18px;
+
+    background: rgba(7, 10, 18, 0.92);
+
+    border-right: 1px solid var(--border);
+
+    backdrop-filter: blur(20px);
+}
+
+.brand {
+    display: flex;
+    align-items: center;
+
+    gap: 12px;
+
+    padding: 4px 6px 26px;
+}
+
+.brand-icon {
+    width: 42px;
+    height: 42px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border: 1px solid rgba(99, 102, 241, 0.55);
+
+    border-radius: 10px;
+
+    color: white;
+
+    background:
+        linear-gradient(
+            135deg,
+            rgba(99, 102, 241, 0.35),
+            rgba(34, 211, 238, 0.10)
+        );
+
+    box-shadow:
+        0 0 25px rgba(99, 102, 241, 0.15);
+
+    font-weight: 800;
+    font-size: 13px;
+    letter-spacing: 1px;
+}
+
+.brand-name {
+    font-size: 17px;
+    font-weight: 800;
+
+    letter-spacing: 2px;
+}
+
+.brand-subtitle {
+    margin-top: 3px;
+
+    color: var(--muted);
+
+    font-size: 9px;
+
+    letter-spacing: 1.7px;
+}
+
+.nav-menu {
+    display: flex;
+    flex-direction: column;
+
+    gap: 5px;
+}
+
+.nav-section {
+    padding: 22px 12px 8px;
+
+    color: #536179;
+
+    font-size: 9px;
+    font-weight: 700;
+
+    letter-spacing: 1.7px;
+}
+
+.nav-item {
+    min-height: 43px;
+
+    display: flex;
+    align-items: center;
+
+    gap: 11px;
+
+    padding: 0 12px;
+
+    border: 1px solid transparent;
+
+    border-radius: 8px;
+
+    color: #8996aa;
+
+    text-decoration: none;
+
+    font-size: 13px;
+
+    transition: 0.2s ease;
+}
+
+.nav-item:hover {
+    color: white;
+
+    background: rgba(99, 102, 241, 0.08);
+
+    border-color: rgba(99, 102, 241, 0.15);
+}
+
+.nav-item.active {
+    color: white;
+
+    background:
+        linear-gradient(
+            90deg,
+            rgba(99, 102, 241, 0.18),
+            rgba(99, 102, 241, 0.04)
+        );
+
+    border-color: rgba(99, 102, 241, 0.28);
+}
+
+.nav-icon {
+    min-width: 27px;
+
+    color: var(--primary-light);
+
+    font-size: 10px;
+    font-weight: 800;
+
+    font-family: monospace;
+}
+
+.sidebar-footer {
+    margin-top: auto;
+
+    padding: 15px;
+
+    background: rgba(15, 23, 42, 0.45);
+
+    border: 1px solid rgba(99, 102, 241, 0.15);
+
+    border-radius: 10px;
+}
+
+.environment-label {
+    margin-bottom: 10px;
+
+    color: #59677c;
+
+    font-size: 9px;
+
+    letter-spacing: 1.5px;
+}
+
+.environment-status {
+    display: flex;
+    align-items: center;
+
+    gap: 8px;
+
+    color: #b9f6d9;
+
+    font-size: 10px;
+    font-weight: 700;
+
+    letter-spacing: 0.7px;
+}
+
+.environment-info {
+    margin-top: 7px;
+
+    color: #69778c;
+
+    font-family: monospace;
+
+    font-size: 10px;
+}
+
+
+/* ==========================================================
+   STATUS
+   ========================================================== */
+
+.status-dot {
+    width: 7px;
+    height: 7px;
+
+    display: inline-block;
+
+    border-radius: 50%;
+
+    background: var(--green);
+
+    box-shadow:
+        0 0 9px rgba(52, 211, 153, 0.75);
+
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+
+    0%,
+    100% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0.45;
+    }
+}
+
+
+/* ==========================================================
+   MAIN AREA
+   ========================================================== */
+
+.main-area {
+    width: calc(100% - var(--sidebar-width));
+
+    margin-left: var(--sidebar-width);
+
+    min-height: 100vh;
+}
+
+.topbar {
+    height: 85px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    padding: 0 34px;
+
+    border-bottom: 1px solid rgba(99, 102, 241, 0.12);
+
+    background: rgba(5, 7, 13, 0.65);
+
+    backdrop-filter: blur(16px);
+
+    position: sticky;
+
+    top: 0;
+
+    z-index: 20;
+}
+
+.breadcrumb {
+    color: #536179;
+
+    font-family: monospace;
+
+    font-size: 9px;
+
+    letter-spacing: 1.3px;
+}
+
+.topbar-title {
+    margin-top: 6px;
+
+    font-size: 16px;
+    font-weight: 650;
+}
+
+.topbar-actions {
+    display: flex;
+    align-items: center;
+
+    gap: 12px;
+}
+
+.system-status {
+    display: flex;
+    align-items: center;
+
+    gap: 8px;
+
+    padding: 8px 12px;
+
+    border: 1px solid rgba(52, 211, 153, 0.15);
+
+    border-radius: 7px;
+
+    color: #9ce6c7;
+
+    background: rgba(52, 211, 153, 0.04);
+
+    font-size: 9px;
+    font-weight: 700;
+
+    letter-spacing: 0.8px;
+}
+
+.lab-badge {
+    padding: 8px 11px;
+
+    border: 1px solid rgba(251, 191, 36, 0.18);
+
+    border-radius: 7px;
+
+    color: #f4cc6d;
+
+    background: rgba(251, 191, 36, 0.04);
+
+    font-size: 9px;
+    font-weight: 700;
+
+    letter-spacing: 1px;
+}
+
+.content {
+    padding: 38px;
+
+    max-width: 1500px;
+
+    margin: 0 auto;
+}
+
+
+/* ==========================================================
+   GENERIC COMPONENTS
+   ========================================================== */
+
+.page-heading {
+    margin-bottom: 32px;
+}
+
+.eyebrow {
+    margin-bottom: 9px;
+
+    color: var(--primary-light);
+
+    font-family: monospace;
+
+    font-size: 10px;
+    font-weight: 700;
+
+    letter-spacing: 1.7px;
+}
+
+.page-heading h1 {
+    font-size: clamp(28px, 4vw, 44px);
+
+    line-height: 1.1;
+
+    letter-spacing: -1.5px;
+}
+
+.page-heading p {
+    max-width: 720px;
+
+    margin-top: 14px;
+
+    color: var(--muted);
+
+    font-size: 14px;
+
+    line-height: 1.7;
+}
+
+.panel {
+    background:
+        linear-gradient(
+            145deg,
+            rgba(17, 24, 39, 0.76),
+            rgba(8, 12, 22, 0.72)
+        );
+
+    border: 1px solid rgba(99, 102, 241, 0.17);
+
+    border-radius: 12px;
+
+    backdrop-filter: blur(15px);
+
+    box-shadow:
+        0 15px 50px rgba(0, 0, 0, 0.15);
+}
+
+.btn {
+    min-height: 40px;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 0 17px;
+
+    border: 1px solid rgba(99, 102, 241, 0.35);
+
+    border-radius: 7px;
+
+    color: white;
+
+    background:
+        linear-gradient(
+            135deg,
+            rgba(99, 102, 241, 0.85),
+            rgba(79, 70, 229, 0.75)
+        );
+
+    text-decoration: none;
+
+    font-size: 11px;
+    font-weight: 700;
+
+    letter-spacing: 0.5px;
+
+    cursor: pointer;
+
+    transition: 0.2s ease;
+}
+
+.btn:hover {
+    transform: translateY(-1px);
+
+    box-shadow:
+        0 8px 25px rgba(99, 102, 241, 0.20);
+}
+
+.btn-secondary {
+    background: rgba(99, 102, 241, 0.05);
+
+    color: #b4bafc;
+}
+
+
+/* ==========================================================
+   RESPONSIVE
+   ========================================================== */
+
+@media (max-width: 900px) {
+
+    .sidebar {
+        display: none;
+    }
+
+    .main-area {
+        width: 100%;
+
+        margin-left: 0;
+    }
+
+    .topbar {
+        padding: 0 20px;
+    }
+
+    .content {
+        padding: 25px 20px;
+    }
+}
+
+
+/* ==========================================================
+   LAB INTERFACE
+   ========================================================== */
+
+.lab-label {
+    display: block;
+
+    margin-bottom: 8px;
+
+    color: #94a3b8;
+
+    font-size: 10px;
+    font-weight: 800;
+
+    letter-spacing: 1px;
+}
+
+.lab-input {
+    width: 100%;
+    min-height: 46px;
+
+    padding: 0 14px;
+
+    border:
+        1px solid rgba(99, 102, 241, 0.20);
+
+    border-radius: 8px;
+
+    outline: none;
+
+    background:
+        rgba(2, 6, 23, 0.65);
+
+    color: #f8fafc;
+
+    font-family: monospace;
+    font-size: 12px;
+
+    transition: 0.2s ease;
+}
+
+.lab-input:focus {
+    border-color:
+        rgba(99, 102, 241, 0.55);
+
+    box-shadow:
+        0 0 0 3px rgba(99, 102, 241, 0.08);
+}
+
+.terminal {
+    overflow: hidden;
+
+    border:
+        1px solid rgba(99, 102, 241, 0.16);
+
+    border-radius: 9px;
+
+    background: #02040a;
+}
+
+.terminal-header {
+    height: 38px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    padding: 0 12px;
+
+    border-bottom:
+        1px solid rgba(99, 102, 241, 0.12);
+
+    background:
+        rgba(15, 23, 42, 0.55);
+
+    color: #536179;
+
+    font-family: monospace;
+    font-size: 9px;
+}
+
+.terminal-dot {
+    width: 7px;
+    height: 7px;
+
+    display: inline-block;
+
+    border-radius: 50%;
+}
+
+.terminal-dot.red {
+    background: #fb7185;
+}
+
+.terminal-dot.yellow {
+    background: #fbbf24;
+}
+
+.terminal-dot.green {
+    background: #34d399;
+}
+
+.terminal pre {
+    min-height: 160px;
+    max-height: 390px;
+
+    margin: 0;
+
+    padding: 18px;
+
+    overflow: auto;
+
+    color: #9ce6c7;
+
+    white-space: pre-wrap;
+    word-break: break-word;
+
+    font-family:
+        "JetBrains Mono",
+        "Fira Code",
+        monospace;
+
+    font-size: 11px;
+    line-height: 1.7;
+}
+
+.info-row {
+    display: flex;
+    justify-content: space-between;
+
+    gap: 15px;
+
+    padding: 11px 0;
+
+    border-bottom:
+        1px solid rgba(99, 102, 241, 0.08);
+
+    color: #64748b;
+
+    font-size: 11px;
+}
+
+.info-row:last-child {
+    border-bottom: none;
+}
+
+.info-row strong {
+    color: #cbd5e1;
+
+    font-family: monospace;
+
+    font-size: 10px;
+}

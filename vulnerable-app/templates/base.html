@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <meta
+        name="description"
+        content="VulnLab Studio - Isolated Web Security Training Environment"
+    >
+
+    <title>
+        {% block title %}VulnLab Studio{% endblock %}
+    </title>
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='css/style.css') }}"
+    >
+</head>
+
+<body>
+
+    <div class="grid-background"></div>
+    <div class="glow glow-one"></div>
+    <div class="glow glow-two"></div>
+
+    <div class="app-shell">
+
+        <!-- ==========================================
+             SIDEBAR
+        =========================================== -->
+
+        <aside class="sidebar">
+
+            <div class="brand">
+
+                <div class="brand-icon">
+                    VL
+                </div>
+
+                <div>
+                    <div class="brand-name">
+                        VULNLAB
+                    </div>
+
+                    <div class="brand-subtitle">
+                        TRAINING TARGET
+                    </div>
+                </div>
+
+            </div>
+
+            <nav class="nav-menu">
+
+                <a
+                    href="/"
+                    class="nav-item {% if active_page == 'dashboard' %}active{% endif %}"
+                >
+                    <span class="nav-icon">⌂</span>
+                    Dashboard
+                </a>
+
+                <div class="nav-section">
+                    SECURITY LABS
+                </div>
+
+                <a
+                    href="/labs/xss?level=easy&q=test"
+                    class="nav-item"
+                >
+                    <span class="nav-icon">&lt;/&gt;</span>
+                    XSS
+                </a>
+
+                <a
+                    href="/labs/sqli?level=easy&id=1"
+                    class="nav-item"
+                >
+                    <span class="nav-icon">DB</span>
+                    SQL Injection
+                </a>
+
+                <a
+                    href="/labs/lfi?level=easy&name=lfi-marker.txt"
+                    class="nav-item"
+                >
+                    <span class="nav-icon">FI</span>
+                    LFI
+                </a>
+
+                <a
+                    href="/labs/traversal?level=easy&path=public_files/readme.txt"
+                    class="nav-item"
+                >
+                    <span class="nav-icon">PT</span>
+                    Path Traversal
+                </a>
+
+                <a
+                    href="/labs/rfi?level=easy&url=http://127.0.0.1:9000/marker.txt"
+                    class="nav-item"
+                >
+                    <span class="nav-icon">RF</span>
+                    Controlled RFI
+                </a>
+
+                <a
+                    href="/login?level=easy"
+                    class="nav-item"
+                >
+                    <span class="nav-icon">AU</span>
+                    Authentication
+                </a>
+
+            </nav>
+
+            <div class="sidebar-footer">
+
+                <div class="environment-label">
+                    ENVIRONMENT
+                </div>
+
+                <div class="environment-status">
+
+                    <span class="status-dot"></span>
+
+                    ISOLATED LAB
+
+                </div>
+
+                <div class="environment-info">
+                    Target :8080
+                </div>
+
+                <div class="environment-info">
+                    RFI :9000
+                </div>
+
+            </div>
+
+        </aside>
+
+
+        <!-- ==========================================
+             MAIN AREA
+        =========================================== -->
+
+        <main class="main-area">
+
+            <header class="topbar">
+
+                <div>
+
+                    <div class="breadcrumb">
+                        VULNLAB / SECURITY RESEARCH
+                    </div>
+
+                    <div class="topbar-title">
+                        {% block header_title %}
+                        Training Environment
+                        {% endblock %}
+                    </div>
+
+                </div>
+
+                <div class="topbar-actions">
+
+                    <div class="system-status">
+                        <span class="status-dot"></span>
+                        TARGET ONLINE
+                    </div>
+
+                    <div class="lab-badge">
+                        LAB ONLY
+                    </div>
+
+                </div>
+
+            </header>
+
+
+            <section class="content">
+
+                {% block content %}
+                {% endblock %}
+
+            </section>
+
+        </main>
+
+    </div>
+
+    <script
+        src="{{ url_for('static', filename='js/app.js') }}"
+    ></script>
+
+    {% block scripts %}
+    {% endblock %}
+
+</body>
+</html>
